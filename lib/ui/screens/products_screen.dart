@@ -37,7 +37,16 @@ class ProductsScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              context.read<ProductBloc>().add(
+                                    EditProductEvent(
+                                      id: product.id.toString(),
+                                      title: "New edited title",
+                                      price: 1000,
+                                      description: "New edited description",
+                                    ),
+                                  );
+                            },
                             icon: const Icon(Icons.edit),
                           ),
                           IconButton(

@@ -5,6 +5,7 @@ import '../../data/models/product.dart';
 import '../../data/repositories/products_repository.dart';
 
 part 'product_event.dart';
+
 part 'product_state.dart';
 
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
@@ -15,6 +16,8 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
         super(InitialProductState()) {
     on<GetProductsEvent>(_getProducts);
     on<AddProductsEvent>(_addProduct);
+    on<EditProductEvent>(_editProduct);
+
     on<DeleteProductEvent>(_deleteProduct);
   }
 
@@ -46,7 +49,34 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       );
       products.add(addedProduct);
 
-      //final response = await _productsRepository.getProducts();
+      emit(LoadedProductState(products: products));
+    } on DioException catch (e) {
+      emit(ErrorProductState(errorMessage: e.toString()));
+    } catch (e) {
+      emit(ErrorProductState(errorMessage: e.toString()));
+    }
+  }
+
+  void _editProduct(event, emit) async {
+    final products = (state as LoadedProductState).products;
+
+    emit(LoadingProductState());
+
+    try {
+      final editedProduct = await _productsRepository.editProduct(
+        id: event.id,
+        title: event.title,
+        price: event.price,
+        description: event.description,
+      );
+      for (var product in products) {
+        if (product.id == event.id) {
+          product.title = editedProduct.title;
+          product.price = editedProduct.price;
+          product.description = editedProduct.description;
+        }
+      }
+
       emit(LoadedProductState(products: products));
     } on DioException catch (e) {
       emit(ErrorProductState(errorMessage: e.toString()));

@@ -66,6 +66,40 @@ class DioProductsService {
     }
   }
 
+  Future<Product> editProduct({
+    required String id,
+    required String title,
+    required num price,
+    required String description,
+  }) async {
+    try {
+      final mapData = {
+        "title": title,
+        "price": price,
+        "description": description,
+      };
+      final response = await _dioClient.put(url: "/products/$id", data: mapData);
+      final updatedProduct = Product(
+        id: response.data['id'],
+        title: response.data['title'],
+        price: response.data['price'],
+        description: response.data['description'],
+        images: response.data['images'],
+        creationAt: response.data['creationAt'],
+        updatedAt: response.data['updatedAt'],
+        category: Kategory.fromJson(response.data['category']),
+      );
+      return updatedProduct;
+    } on DioException catch (e) {
+      debugPrint(e.response?.data);
+      rethrow;
+    } catch (e) {
+      debugPrint(e.toString());
+      rethrow;
+    }
+  }
+
+
   Future<void> deleteProduct({required String id}) async {
     try {
       final response = await _dioClient.delete(url: "/products/$id");

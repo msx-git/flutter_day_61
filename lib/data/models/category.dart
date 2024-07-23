@@ -1,9 +1,9 @@
 class Kategory {
-  final num id;
-  final String name;
-  final String image;
-  final String creationAt;
-  final String updatedAt;
+  num id;
+  String name;
+  String image;
+  String creationAt;
+  String updatedAt;
 
   Kategory({
     required this.id,

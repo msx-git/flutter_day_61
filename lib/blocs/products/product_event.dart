@@ -20,6 +20,20 @@ final class AddProductsEvent extends ProductEvent {
   });
 }
 
+final class EditProductEvent extends ProductEvent {
+  final String id;
+  final String title;
+  final num price;
+  final String description;
+
+  EditProductEvent({
+    required this.id,
+    required this.title,
+    required this.price,
+    required this.description,
+  });
+}
+
 final class DeleteProductEvent extends ProductEvent {
   final String id;
 

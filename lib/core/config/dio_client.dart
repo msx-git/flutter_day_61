@@ -54,6 +54,19 @@ class DioClient {
     }
   }
 
+  Future<Response> put({
+    required String url,
+    required Map<String, dynamic>? data,
+  }) async {
+    try {
+      final response = await _dio.put(url, data: data);
+      return response;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
   Future<void> download(String url, String saveDirectory) async {
     final response = await _dio.download(
       url,

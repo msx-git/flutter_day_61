@@ -2,13 +2,13 @@ import 'category.dart';
 
 class Product {
   final num id;
-  final String title;
-  final num price;
-  final String description;
-  final List<dynamic> images;
-  final String creationAt;
-  final String updatedAt;
-  final Kategory category;
+  String title;
+  num price;
+  String description;
+  List<dynamic> images;
+  String creationAt;
+  String updatedAt;
+  Kategory category;
 
   Product({
     required this.id,
